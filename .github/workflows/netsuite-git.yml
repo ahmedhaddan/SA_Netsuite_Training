@@ -3,7 +3,7 @@ name: Deploy NetSuite SuiteCloud Project
 on:
   push:
     branches:
-      - main  # Set your branch name here
+      - dev  # Set your branch name here
 
 jobs:
   deploy:
@@ -16,15 +16,14 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'  # Specify your Node.js version here
+        node-version: '18'  
 
     - name: Install SuiteCloud CLI
-      run: 
-        npm install -g @oracle/suitecloud-cli
+      run: npm install -g @oracle/suitecloud-cli
 
     - name: SuiteCloud CLI Version
-      run: 
-        suitecloud --version
+      run: suitecloud --version
+        
 
 
 
