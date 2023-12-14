@@ -21,6 +21,9 @@ jobs:
     - name: Install SuiteCloud CLI
       run: npm install -g @oracle/suitecloud-cli --acceptsuitecloudsdklicense
 
+    - name: Install SuiteCloud Unit Testing Framework
+      run: npm install @oracle/suitecloud-unit-testing --save-dev
+
     - name: SuiteCloud CLI Version
       run: suitecloud --version
 
