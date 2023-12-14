@@ -22,6 +22,10 @@ jobs:
       with:
         java-version: '17'
         distribution: 'adopt'
+
+    - name: Install expect
+      run: sudo apt-get install expect
+
     
     - name: JDK version
       run: java --version
@@ -35,7 +39,7 @@ jobs:
     - name: SuiteCloud CLI Version
       run: suitecloud --version
     - name: SuiteCloud CLI Auth
-      run:  suitecloud account:setup -i
+      run:  suitecloud account:savetoken --authid myNetSuiteDevRole --tokenid 037ecadb88acae7dd7d6a44f3aaa6a6e2b621c55b8c4b5e799cd86ee0998f55a --tokensecret 97bf365026cc9366a7b28c96c558d2f44b6b4e23321c4b86c2750236407ba914 --account tstdrv2690016
 
 
 
