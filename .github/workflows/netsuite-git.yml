@@ -1,0 +1,35 @@
+name: Deploy NetSuite SuiteCloud Project
+
+on:
+  push:
+    branches:
+      - main  # Set your branch name here
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # Specify your Node.js version here
+
+    - name: Install SuiteCloud CLI
+      run: |
+        npm install -g @oracle/suitecloud-cli
+
+    - name: SuiteCloud CLI Version
+      run: |
+        suitecloud --version
+
+    - name: Deploy Project
+      run: |
+        suitecloud project:deploy --account TSTDRV2690016 --email ahmed.haddan.info@gmail.com --role YOUR_ROLE_ID --project YOUR_PROJECT_FOLDER --authid YOUR_AUTH_ID
+      env:
+        SDF_PROJECT_PASSWORD: ${{ secrets.SDF_PROJECT_PASSWORD }}
+
+    # Add additional steps as needed
