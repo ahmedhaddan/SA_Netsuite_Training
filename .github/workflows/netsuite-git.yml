@@ -23,6 +23,9 @@ jobs:
 
     - name: SuiteCloud CLI Version
       run: suitecloud --version
+
+    - name: SuiteCloud Command test
+      run: suitecloud file:list --folder "/SuiteScripts"
         
 
 
