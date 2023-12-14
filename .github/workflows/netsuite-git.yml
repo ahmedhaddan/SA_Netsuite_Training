@@ -35,7 +35,7 @@ jobs:
     - name: SuiteCloud CLI Version
       run: suitecloud --version
     - name: SuiteCloud CLI Auth
-      run: suitecloud account:savetoken --authid myNetSuiteDevRole --tokenid 5df7042df38f9d6c57606bf386a83609e6016311f8c5112fded51e35a81122a6 --tokensecret 5fdfefac9b9aa5ebd4257a968f4da136b2a0fd2580d279f55aaffa77ae65443a --account TSTDRV2690016
+      run: suitecloud account:savetoken --authid myNetSuiteDevRole --tokenid 5df7042df38f9d6c57606bf386a83609e6016311f8c5112fded51e35a81122a6 --tokensecret 5fdfefac9b9aa5ebd4257a968f4da136b2a0fd2580d279f55aaffa77ae65443a --account tstdrv2690016
 
 
 
