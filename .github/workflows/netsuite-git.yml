@@ -19,13 +19,13 @@ jobs:
         node-version: '14'  # Specify your Node.js version here
 
     - name: Install SuiteCloud CLI
-      run: |
+      run: 
         npm install -g @oracle/suitecloud-cli
 
     - name: SuiteCloud CLI Version
-      run: |
+      run: 
         suitecloud --version
 
-    - name: Deploy Project
-      
+
+
     # Add additional steps as needed
