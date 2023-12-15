@@ -15,7 +15,7 @@ define(['N/https', 'N/log'], function (https, log) {
         } else {
             // Handle the POST request
             try {
-                var restletUrl = 'https://tstdrv2690016.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=311&deploy=1'; // Replace with your RESTlet URL
+                var restletUrl = 'https://tstdrv2690016.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=312&deploy=1'; // Replace with your RESTlet URL
 
                 // Example: Sending a POST request to the RESTlet
                 var response = https.post({
