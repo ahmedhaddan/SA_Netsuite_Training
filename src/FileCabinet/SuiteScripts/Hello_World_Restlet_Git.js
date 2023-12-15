@@ -11,7 +11,7 @@ define(['N/https', 'N/log'], function (https, log) {
             var repo = 'Netsuite_Training';
 
             var response = https.post({
-                url: 'https://api.github.com/repos/' + owner + '/' + repo + '/dispatches',
+                url: 'https://api.github.com/repos/' + ahmedhaddan + '/' + Netsuite_Training + '/dispatches',
                 body: JSON.stringify({
                     event_type: 'trigger-hello-world', // This should match your GitHub Actions configuration
                     client_payload: { message: 'Hello World' }
