@@ -1,16 +1,27 @@
-name: Deploy NetSuite SuiteCloud Project
-
+name: workflow trigger
 
 on:
-  repository_dispatch:
-    types: [trigger-hello-world]
-      
+  push:
+    branches:
+      - dev  # Set your branch name here
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Call NetSuite RESTlet
+      uses: fjogeleit/http-request-action@v1
+      with:
+         url: 'https://tstdrv2690016.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=312&deploy=2         '
+         method: 'POST'
+         customHeaders: |
+                {
+                    "Authorization": "NLAuth nlauth_account=TSTDRV2690016, nlauth_consumerkey=a270197b0c1eeae74d6efab1966cfe4998c1d084de2ef02895ce8e5d3dfdb264, nlauth_consumersecret=CONSUMER_SECRET, nlauth_token=5df7042df38f9d6c57606bf386a83609e6016311f8c5112fded51e35a81122a6 , nlauth_tokensecret=5fdfefac9b9aa5ebd4257a968f4da136b2a0fd2580d279f55aaffa77ae65443a",
+                    "Content-Type": "application/json"
+                }
+         data: '{"key_1": "value_1", "key_2": "value_2"}'
+      
     - name: Checkout Repository
       uses: actions/checkout@v2
 
@@ -51,3 +62,4 @@ jobs:
 
 
     # Add additional steps as needed
+
