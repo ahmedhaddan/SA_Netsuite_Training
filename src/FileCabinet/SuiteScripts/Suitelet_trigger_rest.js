@@ -2,40 +2,84 @@
  * @NApiVersion 2.x
  * @NScriptType Suitelet
  */
-define(['N/https', 'N/log'], function (https, log) {
+define(['N/search', 'N/ui/serverWidget'], function(search, serverWidget) {
 
-    function onRequest(context) {
+    function onRequest(typecontext) {
         if (context.request.method === 'GET') {
-            // Display a simple form for the user to trigger the POST request
-            context.response.write('<html><body>');
-            context.response.write('<form method="post">');
-            context.response.write('<input type="submit" value="Send POST Request to RESTlet"/>');
-            context.response.write('</form>');
-            context.response.write('</body></html>');
-        } else {
-            // Handle the POST request
-            try {
-                var restletUrl = 'https://tstdrv2690016.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=312&deploy=1'; // Replace with your RESTlet URL
+            // Create a form
+            var form = serverWidget.createForm({
+                title: 'System Notes Since Last Launch'
+            });
 
-                // Example: Sending a POST request to the RESTlet
-                var response = https.post({
-                    url: restletUrl,
-                    body: JSON.stringify({ message: 'Hello from Suitelet!' }),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
+            // Add a list to the form
+            var list = form.addSublist({
+                id: 'custpage_system_notes_list',
+                type: serverWidget.SublistType.LIST,
+                label: 'System Notes'
+            });
 
-                // Handling the response
-                context.response.write({
-                    output: 'Response from RESTlet: ' + response.body
+            // Define columns for the sublist
+            list.addField({
+                id: 'custpage_date',
+                type: serverWidget.FieldType.TEXT,
+                label: 'Date'
+            });
+            list.addField({
+                id: 'custpage_name',
+                type: serverWidget.FieldType.TEXT,
+                label: 'Name'
+            });
+            list.addField({
+                id: 'custpage_type',
+                type: serverWidget.FieldType.TEXT,
+                label: 'Type'
+            });
+            list.addField({
+                id: 'custpage_note',
+                type: serverWidget.FieldType.TEXT,
+                label: 'Note'
+            });
+
+            // Perform the search to get system notes
+            var systemNotesSearch = search.create({
+                type: search.Type.SYSTEM_NOTE,
+                columns: [
+                    'date',
+                    'name',
+                    'context',
+                    
+                                ],
+                filters: [
+                    // Add your filters here, for example, to filter by date
+                ]
+            });
+
+            var searchResult = systemNotesSearch.run().getRange({start: 0, end: 1000});
+            for (var i = 0; i < searchResult.length; i++) {
+                list.setSublistValue({
+                    id: 'custpage_date',
+                    line: i,
+                    value: searchResult[i].getValue({name: 'date'})
                 });
-            } catch (e) {
-                log.error({ title: 'Error', details: e });
-                context.response.write({
-                    output: 'Error: ' + e.toString()
+                list.setSublistValue({
+                    id: 'custpage_name',
+                    line: i,
+                    value: searchResult[i].getValue({name: 'name'})
+                });
+                list.setSublistValue({
+                    id: 'custpage_type',
+                    line: i,
+                    value: searchResult[i].getText({name: 'context'})
+                });
+                list.setSublistValue({
+                    id: 'custpage_note',
+                    line: i,
+                    value: searchResult[i].getValue({name: 'note'})
                 });
             }
+
+            // Display the form
+            context.response.writePage(form);
         }
     }
 
