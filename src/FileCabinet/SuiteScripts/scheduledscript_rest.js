@@ -67,7 +67,7 @@ define(['N/https', 'N/log','N/search'], function(https, log,search) {
         }).join('\n'); // Join each message with a newline character
 
         var headers = {
-            'Authorization': 'Bearer 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',
+            'Authorization': 'Bearer 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',
             'Accept': 'application/vnd.github.v3+json',
             'X-GitHub-Api-Version': '2022-11-28'
 
@@ -77,6 +77,7 @@ define(['N/https', 'N/log','N/search'], function(https, log,search) {
         var body = JSON.stringify({
             title: 'UI update',
             body: customMessage,
+            labels: ['ui']
         });
         
         var response = https.post({
