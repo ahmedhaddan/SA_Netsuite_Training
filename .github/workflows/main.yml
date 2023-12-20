@@ -1,0 +1,13 @@
+name: Label Triggered Workflow
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  check-label:
+    runs-on: ubuntu-latest
+    if: github.event.label.name == 'ui'
+    steps:
+      - name: Execute Job
+        run: echo "Issue with specific label found!"
+        # Add more steps as needed
