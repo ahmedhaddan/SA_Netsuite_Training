@@ -8,6 +8,16 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.label.name == 'ui'
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
       - name: Execute Job
         run: echo "Issue with specific label found!"
-        # Add more steps as needed
+      - name: Create Asana Task
+        run: |
+          curl -X POST https://app.asana.com/api/1.0/tasks \
+          -H "Authorization: Bearer 2/1205676102159508/1206210055893265:60f6668eb77a5796e95acf288f225e96" \
+          -H "Content-Type: application/json" \
+          -d '{"data": {"workspace": "your_workspace_id", "name": "New Task from GitHub Issue", "notes": "Issue URL: ${{ github.event.issue.html_url }}", "projects": ["your_project_id"]}}'
+        env:
+          ASANA_PAT: 2/1205676102159508/1206210055893265:60f6668eb77a5796e95acf288f225e96
+
