@@ -14,6 +14,8 @@ jobs:
         run: echo "Issue with specific label found!"
       - name: Create Asana Task
         run: |
+          issue_url="${{ github.event.issue.html_url }}"
+          issue_body="${{ github.event.issue.body }}"
           curl -X POST https://app.asana.com/api/1.0/tasks \
           -H "Authorization: Bearer 2/1205676102159508/1206210055893265:60f6668eb77a5796e95acf288f225e96" \
           -H "accept: application/json" \
