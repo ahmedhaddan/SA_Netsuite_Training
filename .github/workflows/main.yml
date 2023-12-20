@@ -18,7 +18,7 @@ jobs:
           -H "Authorization: Bearer 2/1205676102159508/1206210055893265:60f6668eb77a5796e95acf288f225e96" \
           -H "accept: application/json" \
           -H "Content-Type: application/json" \
-          -d '{"data": {"workspace": "1205676102159518", "name": "New Task from GitHub Issue", "notes": "Issue URL: ${{ github.event.issue.html_url }}", "projects": ["1205676223874099"]}}'
+          -d '{"data": {"workspace": "1205676102159518", "name": "UI Updated from GitHub", "notes": "Issue URL: ${{ github.event.issue.html_url }} \n\nIssue Description:\n${{ github.event.issue.body }}", "projects": ["1205676223874099"]}}'
         env:
           ASANA_PAT: 2/1205676102159508/1206210055893265:60f6668eb77a5796e95acf288f225e96
 
