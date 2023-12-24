@@ -2,7 +2,27 @@
  * @NApiVersion 2.x
  * @NScriptType Suitelet
  */
-define(['N/https', 'N/log','N/search'], function(https, log,search) {
+define(['N/https', 'N/log','N/search', 'N/runtime','N/record','N/ui/serverWidget','N/url','N/redirect'], function(https, log,search,runtime,record,serverWidget,url,redirect) {
+
+    function onRequest(context) {
+        if (context.request.method === 'GET') {
+            var form = serverWidget.createForm({
+                title: 'Submit Data'
+            });
+            form.addSubmitButton({
+                label: 'Submit to GitHub'
+            });
+            context.response.writePage(form);
+        } else { // POST request
+            sendToGitHub(context); // your existing logic
+        
+            redirect.toSuitelet({
+                scriptId: 'customscript324',
+                deploymentId: 'customdeploy1'
+            });
+       
+        }
+    }
 
     function sendToGitHub(context) {
 
@@ -24,7 +44,7 @@ define(['N/https', 'N/log','N/search'], function(https, log,search) {
                 ["date","on","20-Dec-2023 11:59 pm"], 
                 "AND", 
                 ["name","anyof","53"],
-                "AND", 
+                "AND",
                  ["context","anyof","UIF"]
              ],
             columns: [
@@ -67,7 +87,7 @@ define(['N/https', 'N/log','N/search'], function(https, log,search) {
         }).join('\n'); // Join each message with a newline character
 
         var headers = {
-            'Authorization': 'Bearer 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',
+            'Authorization': 'Bearer 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',
             'Accept': 'application/vnd.github.v3+json',
             'X-GitHub-Api-Version': '2022-11-28'
 
@@ -90,9 +110,14 @@ define(['N/https', 'N/log','N/search'], function(https, log,search) {
             title: 'Response',
             details: response
         });
+
+        
+
+        
     }
 
     return {
-        onRequest: sendToGitHub
+        onRequest:onRequest
+
     };
 });
