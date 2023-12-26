@@ -45,6 +45,30 @@ define([
       fieldId: "custrecord_ss_userfilter",
     });
 
+    var gitHubRepoUrl = systemNoteConfig_Rec.getValue({
+        fieldId: "custrecord_ss_sysnoteconf_url",
+      });
+      
+    var githubToken = systemNoteConfig_Rec.getValue({
+        fieldId: "custrecord_ss_sysnoteconf_token",
+      });
+
+    var githubLabels = systemNoteConfig_Rec.getValue({
+        fieldId: "custrecord_ss_sysnoteconf_labels",
+      });
+      var githubLabelsArry = githubLabels.split(' ')
+
+
+    var configRecordType = systemNoteConfig_Rec.getValue({
+        fieldId: "custrecord_ss_sysnoteconf_rectype",
+      });
+      
+    var configIssueTitle = systemNoteConfig_Rec.getValue({
+        fieldId: "custrecord_ss_sysnoteconf_issuetitle",
+      });
+
+
+      
     log.debug("users", userFilterGroup);
 
     var lastRunDate = convertISODatetoNetSuiteFormat(lastRunDateISO);
@@ -62,7 +86,7 @@ define([
         "AND",
         ["context", "anyof", "UIF"],
         "AND",
-        ["recordtype", "anyof", "-123", "-124"],
+        ["recordtype", "anyof", configRecordType],
       ],
       columns: ["record", "type", "field", "name", "recordtype", "newvalue","date"],
     });
@@ -111,13 +135,7 @@ define([
 
 
        
-    var loadedRecord = record.load({
-        type: record.Type.CUSTOM_RECORD, 
-        id: messageObject[0].recordtype
-    });
-    log.debug("record type from record", loadedRecord.type);
-   
-    // messageObject.internalid = loadedRecord.type; 
+
     
 
 
@@ -163,47 +181,27 @@ define([
       var objectName = messageObject.record;
       var headers = {
         Authorization:
-          "Bearer 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",
+          "Bearer "+githubToken,
         Accept: "application/vnd.github.v3+json",
         "X-GitHub-Api-Version": "2022-11-28",
       };
 
       var body = JSON.stringify({
-        title: "New NetSuite Object Created -" + "[" + objectName + "]",
+        title: configIssueTitle ,
         body: customMessage,
-        labels: ["ui"],
+        labels: githubLabelsArry
       });
 
       var response = https.post({
-        url: "https://api.github.com/repos/ahmedhaddan/SA_Netsuite_Training/issues",
+        url: gitHubRepoUrl,
         body: body,
         headers: headers,
       });
 
-      log.debug({
-        title: "Response",
-        details: response,
-      });
     }
     updateLastRunDate();
   }
 
-//   function getRecordId(internalId, recordtype)
-//   {
-//     var recordid ='';
-//     if(recordtype == 'Record Type')
-//     {
-//     var loadedRecord = record.load({
-//         type: record.Type.CUSTOM_RECORD, // Replace with the appropriate record type
-//         id: internalId
-//     });
-//     recordid = loadedRecord.type; 
-//     }
-//     else {
-//     recordid = internalId 
-//     }
-//     return recordid
-//   }
 
    /**
      * Updates the 'last run date' on the custom record 'systemnoteconfig'.
